@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Airline - Enter Passenger Details</title>
+    <!-- Import FontAwesome for premium airline-style icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Link to the brand stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- State Switcher Header Toolbar -->
+    <header class="state-switcher">
+        <span class="state-switcher-title"><i class="fa-solid fa-sliders"></i> SCENARIOS:</span>
+        
+        <!-- Flow Selection -->
+        <div class="flow-selector-group">
+            <button class="switch-btn active" id="flow-guest">Guest Flow (Anonymous)</button>
+            <button class="switch-btn" id="flow-logged">Logged-in Flow (Doe Family)</button>
+        </div>
+
+        <div style="border-left: 1px solid var(--indigo-border-color); height: 30px; margin: 0 10px;"></div>
+
+        <!-- Passenger Count Selection -->
+        <div class="count-selector-group">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-right: 8px;">Pax Count:</span>
+            <button class="count-pill" data-count="1">1 Pax</button>
+            <button class="count-pill" data-count="2">2 Pax</button>
+            <button class="count-pill active" data-count="3">3 Pax</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Left Booking Panel -->
+        <main class="left-panel">
+            <!-- Navigation Header Links -->
+            <a href="#" class="back-link">
+                <i class="fa-solid fa-chevron-left"></i> Back to search results
+            </a>
+
+            <!-- Journey Route Banner -->
+            <div class="route-banner">
+                <div class="route-banner-detail">
+                    <strong>DEL</strong>
+                    <div class="route-divider"></div>
+                    <strong>NMI</strong>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <span class="route-badge"><i class="fa-solid fa-couch"></i> Economy</span>
+                    <span class="route-badge"><i class="fa-solid fa-plane"></i> Direct</span>
+                </div>
+            </div>
+
+            <!-- Flow Header (Updates dynamically based on state) -->
+            <div class="header-section" id="main-flow-header">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Dynamic Passenger Content Area -->
+            <div id="dynamic-passenger-container" style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- Content generated dynamically by app.js -->
+            </div>
+        </main>
+
+        <!-- Right Summary Sidebar -->
+        <aside class="right-panel">
+            <!-- Trip Summary -->
+            <div class="sidebar-card">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">Trip Summary</span>
+                    <a href="#" class="sidebar-link">Details</a>
+                </div>
+                <div class="sidebar-subtext" id="trip-summary-text">
+                    3 Adults
+                </div>
+            </div>
+
+            <!-- Flight Summary Accordion -->
+            <div class="sidebar-card" style="padding: 16px;">
+                <div class="flight-summary-accordion">
+                    <div class="flight-summary-header">
+                        <span>Flight Summary - Departing</span>
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                    <div class="flight-summary-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="flight-tag">Saver | Economy</span>
+                            <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">6E 6470, A321</span>
+                        </div>
+                        
+                        <div class="flight-time-line">
+                            <div class="flight-time-bullets">
+                                <div class="bullet-dot"></div>
+                                <div class="bullet-line"></div>
+                                <div class="bullet-dot"></div>
+                            </div>
+                            <div class="flight-time-details">
+                                <div class="time-row">
+                                    <span class="time-bold">06:55 <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-secondary);">Wed, Aug 26 2026</span></span>
+                                    <span class="station-detail">Delhi</span>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Indira Gandhi International Airport (T1)</span>
+                                </div>
+                                <div class="duration-indicator">
+                                    <i class="fa-regular fa-clock"></i> Travel time 02h 10m
+                                </div>
+                                <div class="time-row">
+                                    <span class="time-bold">09:05 <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-secondary);">Wed, Aug 26 2026</span></span>
+                                    <span class="station-detail">Navi Mumbai</span>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Navi Mumbai Airport</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="baggage-info">
+                            <span><i class="fa-solid fa-suitcase-rolling"></i> Cabin Baggage: Upto 7 KG</span>
+                            <span><i class="fa-solid fa-briefcase"></i> Check-In Baggage: 15 KG</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exclusive Benefits -->
+            <div class="benefits-card">
+                <span class="benefits-title">Our Exclusive Benefits</span>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="benefit-text">
+                        <span class="benefit-label">Hold Fare starting at ₹49*</span>
+                        <span class="benefit-desc">Hold your booking options for up to 36 hours.</span>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="benefit-text">
+                        <span class="benefit-label">6E Fare Hold</span>
+                        <span class="benefit-desc">Unlimited fare surge protection instantly.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fare Summary -->
+            <div class="fare-card">
+                <div class="fare-details">
+                    <div>
+                        <span class="fare-total-label">Total Fare</span>
+                        <div class="fare-amount" id="fare-amount-text">₹19,587</div>
+                    </div>
+                    <span class="fare-details-link">View Details</span>
+                </div>
+                <button class="next-button" id="btn-next">Next</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Inject application script -->
+    <script src="app.js"></script>
+</body>
+</html>

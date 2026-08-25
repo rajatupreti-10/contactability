@@ -1,0 +1,1086 @@
+/* ==========================================================================
+   IndiGo Redesign Stylesheet - Passenger Details Flow
+   ========================================================================== */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --indigo-navy: #001b5a;
+    --indigo-navy-hover: #002c94;
+    --indigo-light-blue: #e2edfc;
+    --indigo-accent-blue: #0052cc;
+    --indigo-soft-bg: #f3f8fd;
+    --indigo-border-color: #d1d5db;
+    --error-red: #d93025;
+    --error-bg: #fce8e6;
+    --text-primary: #1c1c1c;
+    --text-secondary: #5e5e5e;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --border-radius: 12px;
+    --transition-speed: 0.25s;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9fc;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-top: 70px; /* Space for fixed state-switcher */
+}
+
+/* ==========================================================================
+   State Switcher Header
+   ========================================================================== */
+.state-switcher {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--indigo-border-color);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .state-switcher {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 10px;
+        gap: 8px;
+    }
+    body {
+        padding-top: 130px !important;
+    }
+}
+
+.state-switcher-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--indigo-navy);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.flow-selector-group,
+.count-selector-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.switch-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 20px;
+    background: var(--white);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.switch-btn:hover {
+    background: var(--indigo-soft-bg);
+    color: var(--indigo-navy);
+    border-color: var(--indigo-navy);
+}
+
+.switch-btn.active {
+    background: var(--indigo-navy);
+    color: var(--white);
+    border-color: var(--indigo-navy);
+    box-shadow: 0 2px 6px rgba(0, 27, 90, 0.2);
+}
+
+.count-pill {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 15px;
+    background: var(--white);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.count-pill:hover {
+    background: var(--indigo-soft-bg);
+    border-color: var(--indigo-navy);
+    color: var(--indigo-navy);
+}
+
+.count-pill.active {
+    background: var(--indigo-accent-blue);
+    color: var(--white);
+    border-color: var(--indigo-accent-blue);
+    box-shadow: 0 2px 6px rgba(0, 82, 204, 0.2);
+}
+
+/* Copy Contact Details Checkbox Styling */
+.copy-details-checkbox-container {
+    display: flex;
+    align-items: center;
+    background: var(--indigo-soft-bg);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--indigo-light-blue);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--indigo-navy);
+    user-select: none;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--indigo-navy);
+}
+
+
+
+/* ==========================================================================
+   Main Layout Container
+   ========================================================================== */
+.app-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-panel {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: start;
+}
+
+/* ==========================================================================
+   IndiGo Navigation & Route Banner
+   ========================================================================== */
+.back-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--indigo-navy);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color var(--transition-speed);
+}
+
+.back-link:hover {
+    color: var(--indigo-accent-blue);
+}
+
+.route-banner {
+    background: var(--indigo-navy);
+    color: var(--white);
+    padding: 15px 25px;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.route-banner-detail {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.route-divider {
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+    flex-grow: 1;
+    margin: 0 20px;
+    max-width: 150px;
+}
+
+.route-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Page Headers
+   ========================================================================== */
+.header-section {
+    margin-top: 10px;
+}
+
+.header-section h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    color: var(--indigo-navy);
+    font-weight: 700;
+}
+
+.header-section .subtext {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.header-section .important-notice {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    background: var(--white);
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--indigo-navy);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================================
+   Saved List Container (Logged In Only)
+   ========================================================================== */
+.saved-list-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.saved-list-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    color: var(--indigo-navy);
+    font-weight: 600;
+}
+
+.saved-list-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 576px) {
+    .saved-list-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.saved-pax-item {
+    border: 1px solid var(--indigo-border-color);
+    border-radius: var(--border-radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background: var(--white);
+    transition: all var(--transition-speed) ease;
+}
+
+.saved-pax-item.selected {
+    background: var(--indigo-soft-bg);
+    border-color: var(--indigo-accent-blue);
+}
+
+.saved-pax-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.saved-pax-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--indigo-light-blue);
+    color: var(--indigo-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+}
+
+.saved-pax-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--indigo-navy);
+}
+
+.saved-pax-role {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.saved-pax-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--indigo-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+}
+
+.saved-pax-item.selected .saved-pax-checkbox {
+    border-color: var(--indigo-navy);
+    background: var(--indigo-navy);
+}
+
+.saved-pax-checkbox i {
+    color: var(--white);
+    font-size: 0.7rem;
+    display: none;
+}
+
+.saved-pax-item.selected .saved-pax-checkbox i {
+    display: block;
+}
+
+/* ==========================================================================
+   Passenger Accordion / Cards
+   ========================================================================== */
+.pax-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--indigo-navy);
+    overflow: hidden;
+    transition: box-shadow var(--transition-speed) ease;
+}
+
+.pax-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.pax-card.error-card {
+    border-left-color: var(--error-red);
+}
+
+.pax-card-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: var(--white);
+    user-select: none;
+}
+
+.pax-title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.pax-main-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    color: var(--indigo-navy);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pax-main-title i {
+    font-size: 1rem;
+}
+
+.pax-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.pax-saved-badge {
+    background: var(--indigo-light-blue);
+    color: var(--indigo-navy);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+}
+
+.pax-toggle-icon {
+    font-size: 1.1rem;
+    color: var(--indigo-navy);
+    transition: transform var(--transition-speed) ease;
+}
+
+.pax-card.collapsed .pax-toggle-icon {
+    transform: rotate(-180deg);
+}
+
+.pax-card-body {
+    padding: 0 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-top: 1px solid #f0f3f6;
+    transition: max-height var(--transition-speed) ease, opacity var(--transition-speed) ease;
+}
+
+.pax-card.collapsed .pax-card-body {
+    display: none;
+}
+
+/* ==========================================================================
+   Form Components
+   ========================================================================== */
+.gender-selection {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.gender-selection span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.radio-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.radio-container input {
+    display: none;
+}
+
+.custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--indigo-border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+}
+
+.radio-container input:checked + .custom-radio {
+    border-color: var(--indigo-navy);
+}
+
+.radio-container input:checked + .custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--indigo-navy);
+    border-radius: 50%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 576px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+@media (max-width: 576px) {
+    .form-group.full-width {
+        grid-column: span 1;
+    }
+}
+
+.form-label {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background: var(--white);
+    padding: 0 4px;
+    pointer-events: none;
+    transition: all var(--transition-speed) ease;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--white);
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--indigo-accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+}
+
+/* Floating Label Behavior */
+.form-input:focus ~ .form-label,
+.form-input:not(:placeholder-shown) ~ .form-label {
+    top: -8px;
+    left: 12px;
+    font-size: 0.75rem;
+    color: var(--indigo-accent-blue);
+    font-weight: 600;
+}
+
+/* Date Of Birth Hint */
+.dob-hint {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   Contact Details Component (New Requirements)
+   ========================================================================== */
+.contact-section {
+    border-top: 1px dashed var(--indigo-border-color);
+    padding-top: 20px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-section-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    color: var(--indigo-navy);
+    font-weight: 600;
+}
+
+.contact-section-subtext {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .contact-form-grid {
+        grid-template-columns: 100px 1fr;
+    }
+    .contact-form-grid .email-group {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .contact-form-grid .email-group,
+    .contact-form-grid .country-group {
+        grid-column: span 1;
+    }
+}
+
+/* Country Flag Dropdown input styling */
+.country-dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.country-select-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.country-select {
+    width: 100%;
+    padding: 14px 16px 14px 44px; /* Space for flag icon */
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--white);
+    appearance: none;
+    cursor: pointer;
+}
+
+.country-select:focus {
+    outline: none;
+    border-color: var(--indigo-accent-blue);
+}
+
+.flag-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 14px;
+    pointer-events: none;
+    border-radius: 2px;
+    object-fit: cover;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Secondary Accordions
+   ========================================================================== */
+.sec-accordion-btn {
+    border: 1px solid var(--indigo-border-color);
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--indigo-navy);
+    transition: all var(--transition-speed) ease;
+}
+
+.sec-accordion-btn:hover {
+    background: var(--indigo-soft-bg);
+}
+
+.sec-accordion-btn i.fa-circle-plus {
+    color: var(--indigo-accent-blue);
+}
+
+/* ==========================================================================
+   Error States
+   ========================================================================== */
+.form-input.error {
+    border-color: var(--error-red);
+    background-color: #fff9f9;
+}
+
+.form-input.error:focus {
+    box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1);
+}
+
+.form-input.error ~ .form-label {
+    color: var(--error-red) !important;
+}
+
+.error-message {
+    color: var(--error-red);
+    font-size: 0.78rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Citizenship Info Text Section
+   ========================================================================== */
+.citizenship-container {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.citizenship-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--indigo-navy);
+}
+
+.citizenship-options {
+    display: flex;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   Trip Summary Sidebar
+   ========================================================================== */
+.sidebar-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f3f6;
+    padding-bottom: 12px;
+}
+
+.sidebar-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    color: var(--indigo-navy);
+    font-weight: 700;
+}
+
+.sidebar-link {
+    font-size: 0.8rem;
+    color: var(--indigo-accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.sidebar-subtext {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    background: var(--indigo-soft-bg);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.flight-summary-accordion {
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.flight-summary-header {
+    background: var(--indigo-soft-bg);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--indigo-navy);
+}
+
+.flight-summary-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--white);
+}
+
+.flight-tag {
+    background: #e2edfc;
+    color: #0052cc;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    align-self: start;
+}
+
+.flight-time-line {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+}
+
+.flight-time-bullets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.bullet-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--indigo-accent-blue);
+    flex-shrink: 0;
+}
+
+.bullet-line {
+    width: 2px;
+    flex-grow: 1;
+    border-left: 2px dotted var(--indigo-border-color);
+    margin: 4px 0;
+}
+
+.flight-time-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.time-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-row .time-bold {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--indigo-navy);
+}
+
+.time-row .station-detail {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.duration-indicator {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    background: var(--indigo-soft-bg);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--indigo-light-blue);
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 0;
+}
+
+.baggage-info {
+    border-top: 1px solid #f0f3f6;
+    padding-top: 12px;
+    display: flex;
+    gap: 16px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.baggage-info span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==========================================================================
+   Exclusive Benefits Card
+   ========================================================================== */
+.benefits-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.benefits-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    color: var(--indigo-navy);
+    font-weight: 700;
+}
+
+.benefit-item {
+    border: 1px solid var(--indigo-border-color);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.benefit-item:hover {
+    border-color: var(--indigo-accent-blue);
+}
+
+.benefit-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--indigo-light-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--indigo-navy);
+    font-size: 1.1rem;
+}
+
+.benefit-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.benefit-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--indigo-navy);
+}
+
+.benefit-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Fare Summary Footer
+   ========================================================================== */
+.fare-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fare-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fare-total-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.fare-amount {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    color: var(--indigo-navy);
+    font-weight: 800;
+}
+
+.fare-details-link {
+    font-size: 0.78rem;
+    color: var(--indigo-accent-blue);
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.next-button {
+    width: 100%;
+    padding: 14px;
+    background: var(--indigo-navy);
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: background var(--transition-speed) ease, transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(0, 27, 90, 0.15);
+}
+
+.next-button:hover {
+    background: var(--indigo-navy-hover);
+}
+
+.next-button:active {
+    transform: scale(0.98);
+}
