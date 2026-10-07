@@ -3,160 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Airline - Enter Passenger Details</title>
-    <!-- Import FontAwesome for premium airline-style icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Link to the brand stylesheet -->
+    <title>Astha's Birthday Quiz 🎂✨ | How Well Do You Know Astha?</title>
+    <meta name="description" content="An interactive, festive 5-question birthday quiz celebrating Astha! Test your knowledge, unlock nostalgic memories, and celebrate her special day.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for celebratory icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- State Switcher Header Toolbar -->
-    <header class="state-switcher">
-        <span class="state-switcher-title"><i class="fa-solid fa-sliders"></i> SCENARIOS:</span>
-        
-        <!-- Flow Selection -->
-        <div class="flow-selector-group">
-            <button class="switch-btn active" id="flow-guest">Guest Flow (Anonymous)</button>
-            <button class="switch-btn" id="flow-logged">Logged-in Flow (Doe Family)</button>
+    <!-- Confetti Canvas overlay -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Ambient glowing backdrop decorations -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Floating party accents in background -->
+    <div class="floating-decorations" aria-hidden="true">
+        <span class="decor-item decor-1">🎈</span>
+        <span class="decor-item decor-2">✨</span>
+        <span class="decor-item decor-3">🌸</span>
+        <span class="decor-item decor-4">🎂</span>
+        <span class="decor-item decor-5">💖</span>
+        <span class="decor-item decor-6">⭐</span>
+        <span class="decor-item decor-7">🎁</span>
+        <span class="decor-item decor-8">🎉</span>
+    </div>
+
+    <!-- Top Navigation & Controls Bar -->
+    <header class="top-bar">
+        <div class="brand-badge">
+            <span class="badge-icon">👑</span>
+            <div class="brand-text">
+                <span class="brand-title">Astha's Birthday Chronicles</span>
+                <span class="brand-subtitle">The Ultimate Sister Quiz Edition</span>
+            </div>
         </div>
 
-        <div style="border-left: 1px solid var(--indigo-border-color); height: 30px; margin: 0 10px;"></div>
-
-        <!-- Passenger Count Selection -->
-        <div class="count-selector-group">
-            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-right: 8px;">Pax Count:</span>
-            <button class="count-pill" data-count="1">1 Pax</button>
-            <button class="count-pill" data-count="2">2 Pax</button>
-            <button class="count-pill active" data-count="3">3 Pax</button>
+        <div class="top-controls">
+            <!-- Sound Toggle Button -->
+            <button id="sound-toggle-btn" class="ctrl-btn" title="Toggle Sound Effects" aria-label="Toggle Sound Effects">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                <span class="sound-label">Sound ON</span>
+            </button>
         </div>
     </header>
 
-    <div class="app-container">
-        <!-- Left Booking Panel -->
-        <main class="left-panel">
-            <!-- Navigation Header Links -->
-            <a href="#" class="back-link">
-                <i class="fa-solid fa-chevron-left"></i> Back to search results
-            </a>
+    <!-- Main Content Container -->
+    <main class="quiz-wrapper">
 
-            <!-- Journey Route Banner -->
-            <div class="route-banner">
-                <div class="route-banner-detail">
-                    <strong>DEL</strong>
-                    <div class="route-divider"></div>
-                    <strong>NMI</strong>
-                </div>
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <span class="route-badge"><i class="fa-solid fa-couch"></i> Economy</span>
-                    <span class="route-badge"><i class="fa-solid fa-plane"></i> Direct</span>
-                </div>
+        <!-- INTRO SCREEN -->
+        <section id="intro-screen" class="screen-card active">
+            <div class="intro-badge">
+                <span>🎂 IT'S CELEBRATION TIME!</span>
             </div>
 
-            <!-- Flow Header (Updates dynamically based on state) -->
-            <div class="header-section" id="main-flow-header">
-                <!-- Populated by JavaScript -->
-            </div>
+            <h1 class="main-heading">
+                How Well Do You Know <br>
+                <span class="gradient-name">Astha? ✨</span>
+            </h1>
 
-            <!-- Dynamic Passenger Content Area -->
-            <div id="dynamic-passenger-container" style="display: flex; flex-direction: column; gap: 20px;">
-                <!-- Content generated dynamically by app.js -->
-            </div>
-        </main>
+            <p class="intro-description">
+                From secret childhood aliases to collegiate days, surprise milestones, and her absolute truest obsessions—put your sister knowledge to the test!
+            </p>
 
-        <!-- Right Summary Sidebar -->
-        <aside class="right-panel">
-            <!-- Trip Summary -->
-            <div class="sidebar-card">
-                <div class="sidebar-header">
-                    <span class="sidebar-title">Trip Summary</span>
-                    <a href="#" class="sidebar-link">Details</a>
+            <div class="intro-highlights">
+                <div class="highlight-pill">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>5 Fun Questions</span>
                 </div>
-                <div class="sidebar-subtext" id="trip-summary-text">
-                    3 Adults
+                <div class="highlight-pill">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <span>5 Unlocked Photos</span>
+                </div>
+                <div class="highlight-pill">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <span>Birthday Cake Finale</span>
                 </div>
             </div>
 
-            <!-- Flight Summary Accordion -->
-            <div class="sidebar-card" style="padding: 16px;">
-                <div class="flight-summary-accordion">
-                    <div class="flight-summary-header">
-                        <span>Flight Summary - Departing</span>
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </div>
-                    <div class="flight-summary-body">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="flight-tag">Saver | Economy</span>
-                            <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">6E 6470, A321</span>
-                        </div>
-                        
-                        <div class="flight-time-line">
-                            <div class="flight-time-bullets">
-                                <div class="bullet-dot"></div>
-                                <div class="bullet-line"></div>
-                                <div class="bullet-dot"></div>
-                            </div>
-                            <div class="flight-time-details">
-                                <div class="time-row">
-                                    <span class="time-bold">06:55 <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-secondary);">Wed, Aug 26 2026</span></span>
-                                    <span class="station-detail">Delhi</span>
-                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Indira Gandhi International Airport (T1)</span>
-                                </div>
-                                <div class="duration-indicator">
-                                    <i class="fa-regular fa-clock"></i> Travel time 02h 10m
-                                </div>
-                                <div class="time-row">
-                                    <span class="time-bold">09:05 <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-secondary);">Wed, Aug 26 2026</span></span>
-                                    <span class="station-detail">Navi Mumbai</span>
-                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Navi Mumbai Airport</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="baggage-info">
-                            <span><i class="fa-solid fa-suitcase-rolling"></i> Cabin Baggage: Upto 7 KG</span>
-                            <span><i class="fa-solid fa-briefcase"></i> Check-In Baggage: 15 KG</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="intro-cta-box">
+                <button id="start-quiz-btn" class="btn-primary pulse-btn">
+                    <span>Start the Quiz</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <p class="intro-hint">Guess correctly on each question to reveal Astha's throwback photo! 📸</p>
             </div>
+        </section>
 
-            <!-- Exclusive Benefits -->
-            <div class="benefits-card">
-                <span class="benefits-title">Our Exclusive Benefits</span>
+        <!-- QUIZ SCREEN -->
+        <section id="quiz-screen" class="screen-card">
+            
+            <!-- Quiz Progress Section -->
+            <div class="quiz-progress-bar-container">
+                <div class="progress-meta">
+                    <span class="progress-label" id="progress-text">Question 1 of 5</span>
+                    <span class="progress-status" id="progress-indicator-pill">Memory #1</span>
+                </div>
                 
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fa-solid fa-wallet"></i></div>
-                    <div class="benefit-text">
-                        <span class="benefit-label">Hold Fare starting at ₹49*</span>
-                        <span class="benefit-desc">Hold your booking options for up to 36 hours.</span>
-                    </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
                 </div>
 
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="benefit-text">
-                        <span class="benefit-label">6E Fare Hold</span>
-                        <span class="benefit-desc">Unlimited fare surge protection instantly.</span>
-                    </div>
+                <!-- Milestone Icons -->
+                <div class="milestone-steps" id="milestone-steps">
+                    <span class="step-dot active" data-step="1">1</span>
+                    <span class="step-dot" data-step="2">2</span>
+                    <span class="step-dot" data-step="3">3</span>
+                    <span class="step-dot" data-step="4">4</span>
+                    <span class="step-dot" data-step="5">5</span>
                 </div>
             </div>
 
-            <!-- Fare Summary -->
-            <div class="fare-card">
-                <div class="fare-details">
-                    <div>
-                        <span class="fare-total-label">Total Fare</span>
-                        <div class="fare-amount" id="fare-amount-text">₹19,587</div>
-                    </div>
-                    <span class="fare-details-link">View Details</span>
+            <!-- Question Card -->
+            <div class="question-box">
+                <div class="question-header">
+                    <span class="question-tag" id="question-tag">✨ Question 1</span>
+                    <h2 class="question-title" id="question-text">
+                        Before she was officially "Astha," what name did her parents originally plan for her when she started school?
+                    </h2>
                 </div>
-                <button class="next-button" id="btn-next">Next</button>
-            </div>
-        </aside>
-    </div>
 
-    <!-- Inject application script -->
+                <!-- Interactive Options Grid -->
+                <div class="options-grid" id="options-grid" role="radiogroup" aria-labelledby="question-text">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+
+                <!-- Live feedback message -->
+                <div class="feedback-banner" id="feedback-banner" aria-live="polite"></div>
+
+                <!-- PHOTO REVEAL CARD (Revealed on Correct Answer) -->
+                <div class="photo-reveal-card" id="photo-reveal-card">
+                    <div class="reveal-celebration-ribbon">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Spot On! Memory Unlocked 🎉</span>
+                    </div>
+
+                    <!-- Polaroid Frame -->
+                    <div class="polaroid-frame">
+                        <div class="polaroid-pin">📌</div>
+                        
+                        <div class="image-wrapper" id="image-wrapper">
+                            <div class="img-skeleton" id="img-skeleton">
+                                <div class="spinner"></div>
+                                <span>Loading Astha's photo...</span>
+                            </div>
+                            <!-- Image element dynamically updated -->
+                            <img id="revealed-photo" class="revealed-photo" src="" alt="Astha Photo" loading="eager">
+                        </div>
+
+                        <!-- Special Question 5 Playful Callout (Mandatory) -->
+                        <div id="q5-special-callout" class="q5-special-callout hidden">
+                            <span class="callout-emoji">😜</span>
+                            <span class="callout-text">"Sorry Anshul, you are a close second."</span>
+                            <span class="callout-heart">❤️</span>
+                        </div>
+
+                        <!-- Caption Note -->
+                        <div class="polaroid-caption" id="polaroid-caption">
+                            A cherished memory from Astha's journey ✨
+                        </div>
+                    </div>
+
+                    <!-- Next Question Action Button -->
+                    <div class="next-action-wrapper">
+                        <button id="next-question-btn" class="btn-primary btn-next pulse-btn">
+                            <span id="next-btn-text">Next Question</span>
+                            <i class="fa-solid fa-sparkles"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FINALE / RESULTS CELEBRATION SCREEN -->
+        <section id="finale-screen" class="screen-card">
+            <div class="finale-header">
+                <div class="celebration-trophy">
+                    <span class="trophy-emoji">👑</span>
+                </div>
+                <div class="finale-badge">HAPPY BIRTHDAY ASTHA! 🎂✨</div>
+                <h1 class="finale-title">
+                    You Know Astha <span class="gradient-name">Best!</span>
+                </h1>
+                <p class="finale-subtitle">
+                    All 5 secret questions answered! You've unlocked Astha's entire Birthday Memory Chronicles.
+                </p>
+            </div>
+
+            <!-- Interactive Virtual Birthday Cake Section -->
+            <div class="cake-interactive-card">
+                <h3 class="cake-heading">🎂 Make a Birthday Wish for Astha!</h3>
+                <p class="cake-instruction" id="cake-instruction">Click the cake or button below to blow out the candles!</p>
+                
+                <div class="cake-stage" id="cake-stage">
+                    <div class="cake-container">
+                        <!-- Candles -->
+                        <div class="candles-row">
+                            <div class="candle candle-1">
+                                <div class="flame" id="flame-1"></div>
+                                <div class="stick"></div>
+                            </div>
+                            <div class="candle candle-2">
+                                <div class="flame" id="flame-2"></div>
+                                <div class="stick"></div>
+                            </div>
+                            <div class="candle candle-3">
+                                <div class="flame" id="flame-3"></div>
+                                <div class="stick"></div>
+                            </div>
+                        </div>
+                        <!-- Cake Layers -->
+                        <div class="cake-frosting-top">
+                            <span class="strawberry">🍓</span>
+                            <span class="strawberry">🍓</span>
+                            <span class="strawberry">🍓</span>
+                        </div>
+                        <div class="cake-layer layer-top">
+                            <div class="drip drip-1"></div>
+                            <div class="drip drip-2"></div>
+                            <div class="drip drip-3"></div>
+                        </div>
+                        <div class="cake-layer layer-bottom"></div>
+                        <div class="cake-plate"></div>
+                    </div>
+                </div>
+
+                <div class="cake-actions">
+                    <button id="blow-candles-btn" class="btn-primary btn-cake pulse-btn">
+                        <span>💨 Blow Out The Candles!</span>
+                    </button>
+                </div>
+
+                <!-- Wish Revealed message -->
+                <div id="wish-message-box" class="wish-message-box hidden">
+                    <div class="wish-ribbon">✨ WISH SENT TO THE UNIVERSE! ✨</div>
+                    <p class="wish-quote">
+                        "Wishing you endless happiness, boundless success, unforgettable travels, lots of laughter, and delicious food all year round, Astha! 💖🥂"
+                    </p>
+                </div>
+            </div>
+
+            <!-- Complete Unlocked Memories Gallery -->
+            <div class="gallery-section">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">📸 Astha's Unlocked Birthday Memory Wall</h3>
+                    <p class="gallery-sub">All 5 special chapters revealed in one place</p>
+                </div>
+
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Populated dynamically via JS with all 5 photos and captions -->
+                </div>
+            </div>
+
+            <!-- Finale Footer Actions -->
+            <div class="finale-actions">
+                <button id="replay-quiz-btn" class="btn-secondary">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Play Quiz Again</span>
+                </button>
+                <button id="confetti-boost-btn" class="btn-primary">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>More Confetti! 🎉</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>Made with ❤️ for Astha's Birthday Celebration • Happy Birthday! 🎂✨</p>
+    </footer>
+
+    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
